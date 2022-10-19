@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { VideoGamesModule } from './video-games/video-games.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
+import { ReviewsModule } from './reviews/reviews.module';
+import { CommentsModule } from './comments/comments.module';
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@videogamereviews.ot9nw.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
 
@@ -16,6 +18,8 @@ const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO
     VideoGamesModule,
     UsersModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    ReviewsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
