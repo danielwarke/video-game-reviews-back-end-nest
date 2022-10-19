@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User } from './user.schema';
+import { User } from '../../users/schemas/user.schema';
 import mongoose from 'mongoose';
-import { Review } from './review.schema';
+import { Review } from '../../schemas/review.schema';
 
 @Schema({ timestamps: true })
 export class VideoGame {
