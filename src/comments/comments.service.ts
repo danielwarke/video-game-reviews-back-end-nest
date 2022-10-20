@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Comment, CommentDocument } from './schemas/comment.schema';
@@ -19,5 +23,25 @@ export class CommentsService {
     return this.commentModel.find().exec();
   }
 
-  async update() {}
+  async findOne(): Promise<Comment> {
+    return this.commentModel.findOne({ _id: id }).exec();
+  }
+
+  async update(id: string, updateCommentDto: CreateUpdateCommentDto) {
+    const comment = await this.commentModel.findById(id);
+    if (!comment) {
+      throw new NotFoundException();
+    }
+
+    if (comment.user.toString() !== updateCommentDto.userId) {
+      throw new UnauthorizedException();
+    }
+
+    comment.body = updateCommentDto.body;
+    return comment.save();
+  }
+
+  async delete(id: string) {
+    return await this.commentModel.findByIdAndRemove({ _id: id }).exec();
+  }
 }
